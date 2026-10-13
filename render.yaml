@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: qaddesh
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: STATS_KEY
+        generateValue: true
