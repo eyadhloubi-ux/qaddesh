@@ -53,7 +53,7 @@ const app = express();
 app.disable('x-powered-by');
 app.use(express.json({ limit: '4kb' }));
 app.get('/healthz', (req, res) => res.send('ok'));
-app.post('/api/hit', (req, res) => { const ev = String((req.body || {}).ev || ''); if (['open', 'demo'].includes(ev)) hit(ev); res.json({ ok: 1 }); });
+app.post('/api/hit', (req, res) => { const ev = String((req.body || {}).ev || ''); if (ev === 'open') hit(ev); res.json({ ok: 1 }); });
 app.get('/stats', (req, res) => {
   if (req.query.key !== STATS_KEY) return res.status(403).send('غير مسموح');
   const days = Object.entries(stats.days).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 30);
@@ -63,7 +63,7 @@ app.get('/stats', (req, res) => {
 h1{font-size:26px}table{width:100%;border-collapse:collapse;margin:12px 0 28px;background:#fff;border:2px solid #1A1C24;border-radius:10px;overflow:hidden}
 td,th{padding:9px 12px;border-bottom:1px solid #DCD6C8;text-align:right}td:last-child,th:last-child{text-align:left;font-variant-numeric:tabular-nums}</style>
 <h1>إحصائيات لعبة «قدّيش؟»</h1><table>
-${row('مرات فتح اللعبة', stats.open)}${row('مرات تجربة الوضع التجريبي', stats.demo)}${row('القعدات المفتوحة', stats.rooms)}
+${row('مرات فتح اللعبة', stats.open)}${row('القعدات المفتوحة', stats.rooms)}
 ${row('اللاعبون الذين دخلوا', stats.players)}${row('الألعاب التي بدأت', stats.started)}${row('الألعاب التي اكتملت', stats.finished)}
 ${row('الأسئلة التي لُعبت', stats.questions)}${row('مرات استلام القيادة بعد غياب الريس', stats.takeovers)}
 ${row('القعدات النشطة الآن', rooms.size)}</table>
